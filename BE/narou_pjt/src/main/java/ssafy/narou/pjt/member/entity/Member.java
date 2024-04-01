@@ -26,10 +26,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
 
-    @Column(nullable = false)
     private String profileImage;
 
-    @Column(nullable = false)
     private String introduction;
 
     private Integer followers;

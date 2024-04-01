@@ -1,8 +1,8 @@
 package ssafy.narou.pjt.global.auth.controller;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +13,16 @@ import ssafy.narou.pjt.global.auth.dto.request.EmailCodeCheckRequest;
 import ssafy.narou.pjt.global.auth.dto.request.SignUpRequest;
 import ssafy.narou.pjt.global.auth.dto.response.EmailCodeResponse;
 import ssafy.narou.pjt.global.auth.dto.response.ResponseMessage;
+import ssafy.narou.pjt.global.auth.jwtAuth.JwtManager;
+import ssafy.narou.pjt.global.auth.jwtAuth.TokenType;
 import ssafy.narou.pjt.global.auth.oauthAuth.model.NarouUserDetails;
 import ssafy.narou.pjt.global.auth.passwordAuth.service.PasswordUserService;
-import ssafy.narou.pjt.global.auth.jwt.JwtTokenProvider;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static ssafy.narou.pjt.global.auth.jwtAuth.TokenType.ACCESS_TOKEN;
+import static ssafy.narou.pjt.global.auth.jwtAuth.TokenType.REFRESH_TOKEN;
 
 @Slf4j
 @RestController
@@ -27,8 +31,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordUserService passwordUserService;
+    private final JwtManager jwtManager;
 
     @PostMapping("/email/sendcode")
     public ResponseEntity<?> sendEmailCode(@RequestBody @Valid EmailCodeCheckRequest emailCodeCheckRequest) {
@@ -61,8 +66,13 @@ public class AuthController {
     // refreshtoken 으로 accesstoken 갱신 요청
     @GetMapping("/refresh")
     public ResponseEntity<?> refreshToken(HttpServletResponse response, @AuthenticationPrincipal NarouUserDetails userDetails){
-        jwtTokenProvider.processJwtTokenLoad(response, userDetails);
+        String access = jwtManager.createJWT(userDetails, ACCESS_TOKEN);
+        String refresh = jwtManager.createJWT(userDetails, REFRESH_TOKEN);
+        Cookie accessCookie = new Cookie(ACCESS_TOKEN.getName(), access);
+        Cookie refreshCookie = new Cookie(REFRESH_TOKEN.getName(), refresh);
 
+        response.addCookie(accessCookie);
+        response.addCookie(refreshCookie);
         return ResponseEntity.ok(ResponseMessage.of(true, "Token Refreshed"));
     }
 }

@@ -16,22 +16,20 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import ssafy.narou.pjt.global.auth.filter.JwtValidationFilter;
+import ssafy.narou.pjt.global.auth.filter.TokenBasedUsernamePasswordAuthenticationFilter;
 import ssafy.narou.pjt.global.auth.handler.LoginAuthenticationFailureHandler;
 import ssafy.narou.pjt.global.auth.handler.LoginAuthenticationSuccessHandler;
 import ssafy.narou.pjt.global.auth.handler.NarouAccessDeniedHandler;
 import ssafy.narou.pjt.global.auth.handler.NarouAuthenticationEntryPoint;
-import ssafy.narou.pjt.global.auth.filter.JwtAuthenticationFilter;
-import ssafy.narou.pjt.global.auth.filter.TokenBasedUsernamePasswordAuthenticationFilter;
+import ssafy.narou.pjt.global.auth.jwtAuth.JwtManager;
 import ssafy.narou.pjt.global.auth.oauthAuth.service.NarouOAuth2AuthorizedClientService;
-import ssafy.narou.pjt.global.auth.passwordAuth.service.NarouPasswordAuthorizedUserService;
 import ssafy.narou.pjt.global.auth.oauthAuth.service.NarouOAuth2UserInfoService;
-import ssafy.narou.pjt.global.auth.jwt.JwtTokenProvider;
+import ssafy.narou.pjt.global.auth.passwordAuth.service.NarouPasswordAuthorizedUserService;
 
 import java.util.Arrays;
-
-import static org.springframework.security.config.Customizer.withDefaults;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -44,17 +42,14 @@ public class SecurityConfig {
     private final NarouOAuth2UserInfoService narouUserInfoService;
     private final NarouAccessDeniedHandler narouAccessDeniedHandler;
     private final NarouOAuth2AuthorizedClientService narouOAuth2AuthorizedClientService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtManager jwtManager;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOriginPatterns(Arrays.asList("https://narou-test.duckdns.org",
-                            "https://kauth.kakao.com", "https://kapi.kakao.com",
-                            "https://nid.naver.com", "https://openapi.naver.com",
-                            "https://accounts.google.com", "https://oauth2.googleapis.com", "https://www.googleapis.com"));
+                    config.setAllowedOriginPatterns(List.of("https://narou-test.duckdns.org"));
                     config.setAllowedMethods(Arrays.asList(
                                                     HttpMethod.GET.name(),
                                                     HttpMethod.POST.name(),
@@ -63,8 +58,8 @@ public class SecurityConfig {
                                                     HttpMethod.PATCH.name(),
                                                     HttpMethod.OPTIONS.name()
                     ));
-                    config.setAllowedHeaders(Arrays.asList("*"));
-                    config.setExposedHeaders(Arrays.asList("*"));
+                    config.setAllowedHeaders(List.of("*"));
+                    config.setExposedHeaders(List.of("*"));
                     config.setAllowCredentials(true);
                     return config;
                 }))
@@ -101,7 +96,7 @@ public class SecurityConfig {
                                 .failureHandler(loginAuthenticationFailureHandler)      // 지워도 상관 없을듯
                 )
                 .addFilterAt(new TokenBasedUsernamePasswordAuthenticationFilter(), OAuth2AuthorizationRequestRedirectFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtValidationFilter(jwtManager), UsernamePasswordAuthenticationFilter.class);
                 // .httpBasic(withDefaults());
 
         return http.build();

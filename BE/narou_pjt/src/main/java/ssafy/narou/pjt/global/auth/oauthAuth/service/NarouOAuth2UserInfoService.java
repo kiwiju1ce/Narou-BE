@@ -26,17 +26,12 @@ public class NarouOAuth2UserInfoService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
+        // 권한 정보 업데이트할 것.
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, oAuth2User.getAttributes());
-        Optional<Member> member = memberRepository.findMemberByEmail(oAuth2UserInfo.getEmail());
+        Member member = memberRepository.findMemberByEmail(oAuth2UserInfo.getEmail())
+                .orElseGet(() -> memberRepository.save(Member.createOAuth2User(oAuth2UserInfo)));
 
-        Member user;
-        if (member.isPresent()){
-            user = member.get();
-        }else {
-            Member oauthUser = Member.createOAuth2User(oAuth2UserInfo);
-            user = memberRepository.save(oauthUser);
-        }
 
-        return NarouUserDetails.ofOAuthUser(oAuth2UserInfo, user);
+        return NarouUserDetails.ofOAuthUser(oAuth2UserInfo, member);
     }
 }

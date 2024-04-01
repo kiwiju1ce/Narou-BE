@@ -1,10 +1,17 @@
 package ssafy.narou.pjt.global.utils;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import ssafy.narou.pjt.global.auth.oauthAuth.model.NarouUserDetails;
 import ssafy.narou.pjt.global.error.InvalidAuthenticationException;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class AuthenticationUtils {
 
@@ -23,5 +30,12 @@ public class AuthenticationUtils {
         }else {
             throw new InvalidAuthenticationException("잘못된 권한 정보입니다.");
         }
+    }
+
+    public static Set<GrantedAuthority> getAuthorities(final String string) {
+        String[] tokens = StringUtils.commaDelimitedListToStringArray(string);
+        return Arrays.stream(tokens)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 }

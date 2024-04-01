@@ -6,6 +6,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ssafy.narou.pjt.global.auth.jwtAuth.exception.TokenNotValidException;
 import ssafy.narou.pjt.global.error.NoSuchMemberException;
 import ssafy.narou.pjt.global.auth.dto.response.ResponseMessage;
 import ssafy.narou.pjt.global.error.*;

@@ -4,7 +4,7 @@ import ssafy.narou.pjt.global.auth.oauthAuth.entity.ProviderType;
 
 import java.util.Map;
 
-public class OAuth2UserInfoFactory {
+public abstract class OAuth2UserInfoFactory {
 
     public static OAuth2UserInfo getOAuth2UserInfo(ProviderType providerType, Map<String, Object> attributes) {
         switch (providerType) {
