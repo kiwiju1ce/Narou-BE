@@ -8,8 +8,9 @@ import java.util.Arrays;
 @Getter
 public enum TokenType {
 
-    ACCESS_TOKEN("access-token", 100000000),
-    REFRESH_TOKEN("refresh-token", 1000000000);
+    ACCESS_TOKEN("access-token", 86400L * 1 * 1000),
+    REFRESH_TOKEN("refresh-token", 86400L * 90 * 1000),
+    UNKNOWN_TOKEN("unknown-token", 0L);
 
     private final String name;
     private final long expiration;

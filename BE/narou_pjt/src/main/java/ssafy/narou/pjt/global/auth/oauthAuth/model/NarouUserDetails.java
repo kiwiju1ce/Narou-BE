@@ -11,6 +11,7 @@ import ssafy.narou.pjt.member.entity.Member;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 /** Authentication 상속 받는 객체
  *  OAuth2User와 PasswordUser를 SecurityContext에 저장하기 위한 용도로
@@ -99,5 +100,22 @@ public class NarouUserDetails implements UserDetails, OAuth2User {
                 .nickname(passwordLoginUser.getPasswordLoginUser().getEmail())
                 .password(passwordLoginUser.getPassword())
                 .build();
+    }
+
+    // userId와 authorities 동일하면 equal
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NarouUserDetails that = (NarouUserDetails) o;
+        if (this.authorities == null || that.authorities == null) return false;
+        return Objects.equals(this.userId, that.userId)
+                && this.authorities.size() == that.authorities.size()
+                && this.authorities.containsAll(that.authorities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, authorities);
     }
 }

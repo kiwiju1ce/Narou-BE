@@ -16,6 +16,6 @@ public class JwtAccessToken extends JwtAbstractToken {
 
     private boolean determineExpiration() {
         return getExpiresAt().minusMinutes(5)
-                .isAfter(LocalDateTime.now());
+                .isBefore(LocalDateTime.now());
     }
 }

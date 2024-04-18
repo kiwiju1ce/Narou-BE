@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "jwt.expiration")
 public class TokenProperties {
 
-    private long accessTokenExpiration;
-    private long refreshTokenExpiration;
+    private Long accessTokenExpiration;
+    private Long refreshTokenExpiration;
 }

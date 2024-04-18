@@ -18,6 +18,7 @@ class AuthenticationUtilsTest {
     public void getAuthoritiesTest() {
         String string = "authority1,authority2,authority3";
         Set<GrantedAuthority> authorities = AuthenticationUtils.getAuthorities(string);
+
         assertThat(authorities.size()).isEqualTo(3);
         assertThat(authorities).contains(new SimpleGrantedAuthority("authority1"));
         assertThat(authorities).contains(new SimpleGrantedAuthority("authority2"));

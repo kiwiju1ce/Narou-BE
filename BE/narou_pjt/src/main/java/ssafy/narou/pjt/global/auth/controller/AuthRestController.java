@@ -14,7 +14,6 @@ import ssafy.narou.pjt.global.auth.dto.request.SignUpRequest;
 import ssafy.narou.pjt.global.auth.dto.response.EmailCodeResponse;
 import ssafy.narou.pjt.global.auth.dto.response.ResponseMessage;
 import ssafy.narou.pjt.global.auth.jwtAuth.JwtManager;
-import ssafy.narou.pjt.global.auth.jwtAuth.TokenType;
 import ssafy.narou.pjt.global.auth.oauthAuth.model.NarouUserDetails;
 import ssafy.narou.pjt.global.auth.passwordAuth.service.PasswordUserService;
 
@@ -24,14 +23,11 @@ import java.util.Map;
 import static ssafy.narou.pjt.global.auth.jwtAuth.TokenType.ACCESS_TOKEN;
 import static ssafy.narou.pjt.global.auth.jwtAuth.TokenType.REFRESH_TOKEN;
 
-@Slf4j
 @RestController
-@Controller
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthRestController {
 
-//    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordUserService passwordUserService;
     private final JwtManager jwtManager;
 
@@ -41,16 +37,16 @@ public class AuthController {
         return ResponseEntity.ok(ResponseMessage.of(true, emailCodeResponse, "인증 번호가 발송되었습니다."));
     }
 
-//    @PostMapping("/email/codecheck")
-//    public ResponseEntity<?> emailCheck(@RequestBody EmailCodeCheckRequest emailCode){
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("email", emailCode.getEmail());
-//        params.put("code", emailCode.getCode());
-//        params.put("sendDate", emailCode.getSend_date());
-//
-//        boolean authenticated = passwordUserService.codeMatch(params);
-//        return ResponseEntity.ok(ResponseMessage.of(authenticated, "인증 번호가 확인되었습니다."));
-//    }
+    @PostMapping("/email/codecheck")
+    public ResponseEntity<?> emailCheck(@RequestBody EmailCodeCheckRequest emailCode){
+        Map<String, Object> params = new HashMap<>();
+        params.put("email", emailCode.getEmail());
+        params.put("code", emailCode.getCode());
+        params.put("sendDate", emailCode.getSend_date());
+
+        boolean authenticated = passwordUserService.codeMatch(params);
+        return ResponseEntity.ok(ResponseMessage.of(authenticated, "인증 번호가 확인되었습니다."));
+    }
 
     @PutMapping("/join")
     public ResponseEntity<?> joinPasswordUser(@RequestBody @Valid SignUpRequest signUpRequest){

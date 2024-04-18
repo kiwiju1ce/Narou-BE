@@ -95,9 +95,7 @@ public class SecurityConfig {
                                 .successHandler(loginAuthenticationSuccessHandler)
                                 .failureHandler(loginAuthenticationFailureHandler)      // 지워도 상관 없을듯
                 )
-                .addFilterAt(new TokenBasedUsernamePasswordAuthenticationFilter(), OAuth2AuthorizationRequestRedirectFilter.class)
                 .addFilterBefore(new JwtValidationFilter(jwtManager), UsernamePasswordAuthenticationFilter.class);
-                // .httpBasic(withDefaults());
 
         return http.build();
     }
@@ -117,36 +115,4 @@ public class SecurityConfig {
         return new NarouAuthenticationEntryPoint();
     }
 
-//    @Bean
-//    public BeanPostProcessor springSecurityFilterChainPostProcessor() {
-//
-//        return new BeanPostProcessor() {
-//
-//            @Override
-//            public Object postProcessAfterInitialization(@NonNull final Object bean, @NonNull final String name) {
-//                if (FilterChainProxy.class.isAssignableFrom(bean.getClass())) {
-//                    final List<SecurityFilterChain> source = ((FilterChainProxy) bean).getFilterChains();
-//                    final List<SecurityFilterChain> chains = new ArrayList<>(source.size());
-//
-//                    source.forEach(s -> chains.add(createSecurityFilterChain(s)));
-//
-//                    final FilterChainProxy p = new FilterChainProxy(chains);
-//                    p.afterPropertiesSet();
-//
-//                    return p;
-//                }
-//
-//                return BeanPostProcessor.super.postProcessAfterInitialization(bean, name);
-//            }
-//
-//            private SecurityFilterChain createSecurityFilterChain(final SecurityFilterChain chain) {
-//
-//                final Predicate<Filter> predicate = o ->
-//                        o instanceof TokenBasedUsernamePasswordAuthenticationFilter || !(o instanceof UsernamePasswordAuthenticationFilter);
-//                final List<Filter> filtered = chain.getFilters().stream().filter(predicate).collect(Collectors.toList());
-//
-//                return new DefaultSecurityFilterChain(((DefaultSecurityFilterChain)chain).getRequestMatcher(), filtered);
-//            }
-//        };
-//    }
 }
