@@ -7,11 +7,9 @@
 ### 목차
 1. [프로젝트 기간](#1-프로젝트-기간)
 2. [사용한 기술 스택](#2-사용한-기술-스택)
-3. [팀원 소개](#3-팀원-소개)
-4. [폴더 구조](#4-폴더-구조)
-5. [설계](#5-설계)
-6. [주요 기능 설명](#6-주요-기능-설명)
-7. [서비스 화면](#7-서비스-화면)
+3. [설계](#3-설계)
+4. [주요 기능 설명](#4-주요-기능-설명)
+5. [서비스 화면](#5-서비스-화면)
 
 ----
 
@@ -19,68 +17,18 @@
   - 2024.01.08 ~ 2024.02.16 (6주)
 
 ### 2. 사용한 기술 스택
-  * React
-  * node.js
-  * zustand
-  * styled-component
-  * axios
-  * mui material
+  * Java
+  * Spring boot
+  * MySQL
+  * Spring Security
+  * Spring data JPA
 
-### 3. 팀원 소개
-<table width="100%">
-  <tr>
-    <td width="33%" align="center">
-      <img src="src/img/nyk.jpg" width="100%"/>
-      <b><a href="https://github.com/baloo365">나유경</a></b> 
-    </td>
-    <td width="33%" align="center">
-      <img src="src/img/lgh.jpg" width="100%"/>
-      <b><a href="https://github.com/goldbutnew">이금현</a></b> 
-    </td>
-    <td width="33%" align="center">
-      <img src="src/img/lwj.png" width="100%"/>
-      <b><a href="https://github.com/uuniversey">이우주</a></b> 
-    </td>
-  </tr>
-  <tr>
-    <td width="33%" align="center">
-      지도 API 관련 로직<br>
-      비교 페이지<br>
-      게시물 무한 스크롤 구현
-    </td>
-    <td width="33%" align="center">
-      게시글, 코멘트 CRUD<br>
-      실시간 채팅 기능<br>
-      UI/UX
-    </td>
-    <td width="33%" align="center">
-      git 관리<br>
-      회원 관련 기능<br>
-      검색 및 필터
-    </td>
-  </tr>
-</table>
-
-### 4. 폴더 구조
-```
-  .
-  ├── node_modules
-  ├── public
-  └── src
-      ├── assets
-          └── image
-      ├── components
-      ├── pages
-      ├── router
-      └── store
-```
-
-### 5. 설계
-* Figma
+### 3. 설계
+* ERD
   <table>
     <tr>
       <td>
-        <img src="src/img/figma.png" width="100%" />
+        <img src="img/erd.png" width="100%" />
       </td>
     </tr>
   </table>
@@ -94,7 +42,7 @@
     </tr>
   </table>
 
-### 6. 주요 기능 설명
+### 4. 주요 기능 설명
 
   - 회원 관리
     - 멤버 회원가입/탈퇴, 중복 아이디 체크, 토큰 활용 인증, 인증코드 확인
@@ -119,12 +67,12 @@
     - 두 게시글을 가져와 맵 상에서 경로 비교
     - 경로의 상세 정보 확인
 
-### 7. 서비스 화면
+### 5. 서비스 화면
 * 메인페이지
   <table>
     <tr>
       <td>
-        <img src="src/img/main.gif" width="100%" />
+        <img src="img/main.gif" width="100%" />
       </td>
     </tr>
   </table>
@@ -133,7 +81,7 @@
   <table>
     <tr>
       <td>
-        <img src="src/img/infinite_scroll.gif" width="100%" />
+        <img src="img/infinite_scroll.gif" width="100%" />
       </td>
     </tr>
   </table>
@@ -142,7 +90,7 @@
   <table>
     <tr>
       <td>
-        <img src="src/img/search.gif" width="100%" />
+        <img src="img/search.gif" width="100%" />
       </td>
     </tr>
   </table>
@@ -151,7 +99,7 @@
   <table>
     <tr>
       <td>
-        <img src="src/img/create.gif" width="100%" />
+        <img src="img/create.gif" width="100%" />
       </td>
     </tr>
   </table>
@@ -160,7 +108,7 @@
   <table>
     <tr>
       <td>
-        <img src="src/img/profile.gif" width="100%" />
+        <img src="img/profile.gif" width="100%" />
       </td>
     </tr>
   </table>
@@ -169,7 +117,7 @@
   <table>
     <tr>
       <td>
-        <img src="src/img/scrap.gif" width="100%" />
+        <img src="img/scrap.gif" width="100%" />
       </td>
     </tr>
   </table>
